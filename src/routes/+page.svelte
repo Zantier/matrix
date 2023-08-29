@@ -82,18 +82,18 @@
   <Matrix matrix={matrix1} on:change={handle_change1}
     highlight_i={selected_i1} highlight_j={selected_j1}
     highlight_row={selected_i1} highlight_col = {undefined}
-  ></Matrix>
+  />
   x
   <Matrix matrix={matrix2} on:change={handle_change2}
     highlight_i={selected_i2} highlight_j={selected_j2}
     highlight_row={undefined} highlight_col = {selected_j2}
-  ></Matrix>
+  />
   =
   <Matrix matrix={matrix3} on:change={handle_change3}
     highlight_i={selected_i1} highlight_j={selected_j2}
     highlight_row={selected_j2 === undefined ? selected_i1 : undefined}
     highlight_col={selected_i1 === undefined ? selected_j2 : undefined}
-  ></Matrix>
+  />
 </matrices>
 
 <style>
@@ -118,7 +118,7 @@
   matrices {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     font-size: 20px;
   }
 </style>
