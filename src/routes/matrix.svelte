@@ -36,29 +36,50 @@
 </script>
 
 <outer>
-  {#each matrix as row, i}
-    <row>
-      {#each row as num, j}
-        <val
-          class:highlight_row={i === highlight_row || j === highlight_col}
-          class:highlight={i === highlight_i && j === highlight_j}
-          on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="none">
-          {num}
-        </val>
-      {/each}
-    </row>
-  {/each}
+  <bracket class="bracket1" />
+  <matrix>
+    {#each matrix as row, i}
+      <row>
+        {#each row as num, j}
+          <val
+            class:highlight_row={i === highlight_row || j === highlight_col}
+            class:highlight={i === highlight_i && j === highlight_j}
+            on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="none">
+            {num}
+          </val>
+        {/each}
+      </row>
+    {/each}
+  </matrix>
+  <bracket class="bracket2" />
 </outer>
 
 <style>
+  :root {
+    --padding: 20px;
+  }
   outer {
-    display: block;
+    display: flex;
+    align-items: stretch;
+  }
+  bracket {
+    position: relative;
+    width: var(--padding);
+    border: 2px;
+    border-radius: 3000px;
+  }
+  .bracket1 {
+    left: calc(0.5 * var(--padding));
+    border-left: solid;
+  }
+  .bracket2 {
+    left: calc(-0.5 * var(--padding));
+    border-right: solid;
   }
   row {
     display: block;
   }
   val {
-    --padding: 20px;
     display: inline-block;
     line-height: 0;
     width: calc(var(--padding) * 2);
