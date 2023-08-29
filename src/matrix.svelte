@@ -67,6 +67,7 @@
     width: var(--padding);
     border: 2px;
     border-radius: 3000px;
+    pointer-events: none;
   }
   .bracket1 {
     left: calc(0.5 * var(--padding));

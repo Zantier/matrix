@@ -1,13 +1,28 @@
 <script lang="ts">
     import Matrix from "./matrix.svelte";
 
-  let rows1: number = 2;
-  let cols1: number = 4;
-  let cols2: number = 3;
+  let rows1: number = 1 + Math.floor(3*Math.random());
+
+  let cols1: number = 1 + Math.floor(3*Math.random());
+  let cols2: number = 1 + Math.floor(3*Math.random());
   let max_val: number = 3;
+  let equation = '';
 
   function getRandom() {
     return Math.floor((max_val + 1)*Math.random());
+  }
+
+  $: {
+    equation = '...';
+    if (selected_i1 !== undefined && selected_j2 !== undefined) {
+      equation = '';
+      let delim = '';
+      for (let i = 0; i < cols1; i++) {
+        equation += `${delim}${matrix1[selected_i1][i]}·${matrix2[i][selected_j2]}`;
+        delim = ' + ';
+      }
+      equation += ` = ${matrix3[selected_i1][selected_j2]}`;
+    }
   }
 
   $: {
@@ -65,11 +80,17 @@
   }
 </script>
 
+<h1>
+  Matrix multiplication
+</h1>
+<p>
+  [Hover over] / [tap] values in the answer to see highlighting
+</p>
 <p>
   Matrix 1 rows <input type="number" bind:value={rows1}>
 </p>
 <p>
-  Matrix 1 cols <input type="number" bind:value={cols1}>
+  Matrix 1 cols / Matrix 2 rows <input type="number" bind:value={cols1}>
 </p>
 <p>
   Matrix 2 cols <input type="number" bind:value={cols2}>
@@ -83,7 +104,7 @@
     highlight_i={selected_i1} highlight_j={selected_j1}
     highlight_row={selected_i1} highlight_col = {undefined}
   />
-  x
+  <dot>·</dot>
   <Matrix matrix={matrix2} on:change={handle_change2}
     highlight_i={selected_i2} highlight_j={selected_j2}
     highlight_row={undefined} highlight_col = {selected_j2}
@@ -95,6 +116,9 @@
     highlight_col={selected_i1 === undefined ? selected_j2 : undefined}
   />
 </matrices>
+<equation>
+  {equation}
+</equation>
 
 <style>
   :root {
@@ -117,8 +141,17 @@
   }
   matrices {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
     font-size: 20px;
+  }
+  dot {
+    font-size: 2em;
+    font-family: initial;
+  }
+  equation {
+    display: block;
+    padding: 20px 10px;
   }
 </style>
