@@ -41,12 +41,11 @@
     {#each matrix as row, i}
       <row>
         {#each row as num, j}
-          <val
+          <input class="val"
+            bind:value={matrix[i][j]}
             class:highlight_row={i === highlight_row || j === highlight_col}
             class:highlight={i === highlight_i && j === highlight_j}
-            on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="none">
-            {num}
-          </val>
+            on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="textbox" />
         {/each}
       </row>
     {/each}
@@ -80,9 +79,13 @@
   row {
     display: block;
   }
-  val {
+  .val {
+    background-color: inherit;
+    color: inherit;
+    border: none;
     display: inline-block;
     line-height: 0;
+    height: 0;
     width: calc(var(--padding) * 2);
     padding: var(--padding) 0;
     text-align: center;

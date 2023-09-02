@@ -21,24 +21,9 @@
     return Math.floor((max_val + 1)*Math.random());
   }
 
-  $: {
-    equation = '...';
-    if (selected_i1 !== undefined && selected_j2 !== undefined) {
-      equation = '';
-      let delim = '';
-      for (let i = 0; i < cols1; i++) {
-        equation += `${delim}${matrix1[selected_i1][i]}·${matrix2[i][selected_j2]}`;
-        delim = ' + ';
-      }
-      equation += ` = ${matrix3[selected_i1][selected_j2]}`;
-    }
-  }
-
-  $: {
-    max_val;
+  function createMatrices() {
     matrix1 = [];
     matrix2 = [];
-    matrix3 = [];
     for (let i = 0; i < rows1; i++) {
       let row = [];
       for (let j = 0; j < cols1; j++) {
@@ -53,6 +38,19 @@
       }
       matrix2.push(row);
     }
+  }
+
+  $: {
+    max_val;
+    rows1;
+    cols1;
+    cols2;
+    createMatrices();
+  }
+
+  // Update matrix3
+  $: {
+    matrix3 = [];
 
     for (let i = 0; i < rows1; i++) {
       let row = [];
@@ -64,6 +62,19 @@
         row.push(sum);
       }
       matrix3.push(row);
+    }
+  }
+
+  $: {
+    equation = '...';
+    if (selected_i1 !== undefined && selected_j2 !== undefined) {
+      equation = '';
+      let delim = '';
+      for (let i = 0; i < cols1; i++) {
+        equation += `${delim}${matrix1[selected_i1][i]}·${matrix2[i][selected_j2]}`;
+        delim = ' + ';
+      }
+      equation += ` = ${matrix3[selected_i1][selected_j2]}`;
     }
   }
 
@@ -102,12 +113,12 @@
 </p>
 
 <matrices>
-  <Matrix matrix={matrix1} on:change={handle_change1}
+  <Matrix bind:matrix={matrix1} on:change={handle_change1}
     highlight_i={selected_i1} highlight_j={selected_j1}
     highlight_row={selected_i1} highlight_col = {undefined}
   />
   <dot>·</dot>
-  <Matrix matrix={matrix2} on:change={handle_change2}
+  <Matrix bind:matrix={matrix2} on:change={handle_change2}
     highlight_i={selected_i2} highlight_j={selected_j2}
     highlight_row={undefined} highlight_col = {selected_j2}
   />
