@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Matrix from "./matrix.svelte";
+  import Matrix from "./matrix.svelte";
 
   let rows1: number = 1 + Math.floor(3*Math.random());
 
@@ -7,6 +7,15 @@
   let cols2: number = 1 + Math.floor(3*Math.random());
   let max_val: number = 3;
   let equation = '';
+
+  let matrix1: number[][] = []
+  let matrix2: number[][] = []
+  let matrix3: number[][] = []
+  let selected_i1: number | undefined = undefined;
+  let selected_j1: number | undefined = undefined;
+  let selected_i2: number | undefined = undefined;
+  let selected_j2: number | undefined = undefined;
+
 
   function getRandom() {
     return Math.floor((max_val + 1)*Math.random());
@@ -58,13 +67,6 @@
     }
   }
 
-  let matrix1: number[][] = []
-  let matrix2: number[][] = []
-  let matrix3: number[][] = []
-  let selected_i1: number | undefined = undefined;
-  let selected_j1: number | undefined = undefined;
-  let selected_i2: number | undefined = undefined;
-  let selected_j2: number | undefined = undefined;
 
   function handle_change1(e: CustomEvent<any>): void {
     selected_i1 = e.detail.i;
