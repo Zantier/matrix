@@ -200,13 +200,11 @@
   <dot>·</dot>
   <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
     highlight_i={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
-      (selected_i1 < rows2 ? -selected_i1 + rows2 - 1 :
-      selected_i1 >= rows1 - 1 ? -selected_i1 + rows1 - 1: 0) : undefined}
+      -selected_i1 + rows2 - 1 : undefined}
     highlight_j={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
-      (selected_j2 < cols2 ? -selected_j2 + cols2 - 1 :
-      selected_j2 >= cols1 - 1 ? -selected_j2 + cols1 - 1: 0) : undefined}
-    highlight_height={rows2}
-    highlight_width={cols2}
+      -selected_j2 + cols2 - 1 : undefined}
+    highlight_height={rows1}
+    highlight_width={cols1}
     highlight_row={undefined} highlight_col = {is_convolution ? undefined : selected_j2}
     --highlight="#204020"
   /></div>
