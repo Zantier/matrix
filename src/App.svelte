@@ -97,7 +97,7 @@
   Matrix multiplication
 </h1>
 <p>
-  [Hover over] / [tap] values in the answer to see highlighting
+  [Hover over] / [tap] values to see highlighting
 </p>
 <p>
   Matrix 1 rows <input type="number" bind:value={rows1}>
@@ -125,8 +125,8 @@
   =
   <Matrix matrix={matrix3} on:change={handle_change3}
     highlight_i={selected_i1} highlight_j={selected_j2}
-    highlight_row={selected_j2 === undefined ? selected_i1 : undefined}
-    highlight_col={selected_i1 === undefined ? selected_j2 : undefined}
+    highlight_row={undefined}
+    highlight_col={undefined}
   />
 </matrices>
 <equation>
