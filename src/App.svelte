@@ -20,6 +20,7 @@
   let selected_j2: number | undefined = undefined;
   let modes = ['Multiply', 'Multiply (grid)', 'Convolution']
   let mode;
+  $: is_convolution = mode === 'Convolution';
 
 
   function getRandom() {
@@ -57,20 +58,41 @@
 
   // Update matrix3
   $: {
-    is_valid = cols1 === rows2;
-    if (is_valid) {
+    if (is_convolution) {
+      is_valid = true;
       matrix3 = [];
 
-      for (let i = 0; i < rows1; i++) {
+      for (let i = -rows2 + 1; i < rows1; i++) {
         let row = [];
-        for (let j = 0; j < cols2; j++) {
+        for (let j = -cols2 + 1; j < cols1; j++) {
           let sum = 0;
-          for (let k = 0; k < cols1; k++) {
-            sum += matrix1[i][k] * matrix2[k][j];
+          for (let i2 = 0; i2 < rows2; i2++) {
+            for (let j2 = 0; j2 < cols2; j2++) {
+              if (i + i2 >= 0 && i + i2 < rows1 && j + j2 >= 0 && j + j2 < cols1) {
+                sum += matrix1[i + i2][j + j2] * matrix2[i2][j2];
+              }
+            }
           }
           row.push(sum);
         }
         matrix3.push(row);
+      }
+    } else {
+      is_valid = cols1 === rows2;
+      if (is_valid) {
+        matrix3 = [];
+
+        for (let i = 0; i < rows1; i++) {
+          let row = [];
+          for (let j = 0; j < cols2; j++) {
+            let sum = 0;
+            for (let k = 0; k < cols1; k++) {
+              sum += matrix1[i][k] * matrix2[k][j];
+            }
+            row.push(sum);
+          }
+          matrix3.push(row);
+        }
       }
     }
   }
@@ -79,25 +101,55 @@
     equation = '...';
     if (selected_i1 !== undefined && selected_j2 !== undefined) {
       equation = '';
-      let delim = '';
-      for (let i = 0; i < cols1; i++) {
-        let value1 = matrix1[selected_i1][i];
-        let value2 = matrix2[i][selected_j2];
-        let value1_str = value1.toString();
-        let value2_str = value2.toString();
-        if (value1 < 0) {
-          value1_str = `(${value1})`;
+      if (is_convolution) {
+        let delim = '';
+        let i = selected_i1 - rows2 + 1;
+        let j = selected_j2 - cols2 + 1;
+        let sum = 0;
+        for (let i2 = 0; i2 < rows2; i2++) {
+          for (let j2 = 0; j2 < cols2; j2++) {
+            if (i + i2 >= 0 && i + i2 < rows1 && j + j2 >= 0 && j + j2 < cols1) {
+              let value1 = matrix1[i + i2][j + j2];
+              let value2 = matrix2[i2][j2];
+              let value1_str = value1.toString();
+              let value2_str = value2.toString();
+              if (value1 < 0) {
+                value1_str = `(${value1})`;
+              }
+              if (value2 < 0) {
+                value2_str = `(${value2})`;
+              }
+              let dot = '·';
+              if (value1 < 0 || value2 < 0) {
+                dot = '';
+              }
+              equation += `${delim}${value1_str}${dot}${value2_str}`;
+              delim = ' + ';
+            }
+          }
         }
-        if (value2 < 0) {
-          value2_str = `(${value2})`;
+      } else {
+        let delim = '';
+        for (let i = 0; i < cols1; i++) {
+          let value1 = matrix1[selected_i1][i];
+          let value2 = matrix2[i][selected_j2];
+          let value1_str = value1.toString();
+          let value2_str = value2.toString();
+          if (value1 < 0) {
+            value1_str = `(${value1})`;
+          }
+          if (value2 < 0) {
+            value2_str = `(${value2})`;
+          }
+          let dot = '·';
+          if (value1 < 0 || value2 < 0) {
+            dot = '';
+          }
+          equation += `${delim}${value1_str}${dot}${value2_str}`;
+          delim = ' + ';
         }
-        let dot = '·';
-        if (value1 < 0 || value2 < 0) {
-          dot = '';
-        }
-        equation += `${delim}${value1_str}${dot}${value2_str}`;
-        delim = ' + ';
       }
+
       equation += ` = ${matrix3[selected_i1][selected_j2]}`;
     }
   }
@@ -136,13 +188,13 @@
 
 <matrices class:matrix-grid={mode === 'Multiply (grid)'} class:is_valid>
   <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
-    highlight_i={selected_i1} highlight_j={selected_j1}
-    highlight_row={selected_i1} highlight_col = {undefined}
+    highlight_i={is_convolution ? undefined : selected_i1} highlight_j={is_convolution ? undefined : selected_j1}
+    highlight_row={is_convolution ? undefined : selected_i1} highlight_col = {undefined}
   /></div>
   <dot>·</dot>
   <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
-    highlight_i={selected_i2} highlight_j={selected_j2}
-    highlight_row={undefined} highlight_col = {selected_j2}
+    highlight_i={is_convolution ? undefined : selected_i2} highlight_j={is_convolution ? undefined : selected_j2}
+    highlight_row={undefined} highlight_col = {is_convolution ? undefined : selected_j2}
   /></div>
   <equals>=</equals>
   {#if is_valid}
