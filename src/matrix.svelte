@@ -9,6 +9,8 @@
   // Highlight specific cell
   export let highlight_i: number | undefined;
   export let highlight_j: number | undefined;
+  export let highlight_height: number;
+  export let highlight_width: number;
   // Highlight entire row or column
   export let highlight_row: number | undefined;
   export let highlight_col: number | undefined;
@@ -44,7 +46,8 @@
           <input class="val"
             bind:value={matrix[i][j]}
             class:highlight_row={i === highlight_row || j === highlight_col}
-            class:highlight={i === highlight_i && j === highlight_j}
+            class:highlight={i >= highlight_i && i < highlight_i + highlight_height &&
+              j >= highlight_j && j < highlight_j + highlight_width}
             on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="textbox" />
         {/each}
       </row>

@@ -188,13 +188,25 @@
 
 <matrices class:matrix-grid={mode === 'Multiply (grid)'} class:is_valid>
   <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
-    highlight_i={undefined} highlight_j={undefined}
+    highlight_i={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
+      selected_i1 - rows2 + 1 : undefined}
+    highlight_j={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
+      selected_j2 - cols2 + 1 : undefined}
+    highlight_height={rows2}
+    highlight_width={cols2}
     highlight_row={is_convolution ? undefined : selected_i1} highlight_col = {undefined}
     --highlight="#204020"
   /></div>
   <dot>·</dot>
   <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
-    highlight_i={undefined} highlight_j={undefined}
+    highlight_i={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
+      (selected_i1 < rows2 ? -selected_i1 + rows2 - 1 :
+      selected_i1 >= rows1 - 1 ? -selected_i1 + rows1 - 1: 0) : undefined}
+    highlight_j={is_convolution && selected_i1 !== undefined && selected_j2 !== undefined ?
+      (selected_j2 < cols2 ? -selected_j2 + cols2 - 1 :
+      selected_j2 >= cols1 - 1 ? -selected_j2 + cols1 - 1: 0) : undefined}
+    highlight_height={rows2}
+    highlight_width={cols2}
     highlight_row={undefined} highlight_col = {is_convolution ? undefined : selected_j2}
     --highlight="#204020"
   /></div>
@@ -202,6 +214,7 @@
   {#if is_valid}
     <div class="matrix3"><Matrix matrix={matrix3} on:change={handle_change3}
       highlight_i={selected_i1} highlight_j={selected_j2}
+      highlight_height={1} highlight_width={1}
       highlight_row={undefined}
       highlight_col={undefined}
       --highlight="#404020"
