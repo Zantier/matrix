@@ -3,7 +3,7 @@
   import Radio from "./Radio.svelte";
 
   let rows1: number = 1 + Math.floor(3*Math.random());
-
+  let rows2: number = 1 + Math.floor(3*Math.random());
   let cols1: number = 1 + Math.floor(3*Math.random());
   let cols2: number = 1 + Math.floor(3*Math.random());
   let max_val: number = 3;
@@ -12,6 +12,7 @@
   let matrix1: number[][] = []
   let matrix2: number[][] = []
   let matrix3: number[][] = []
+  let is_valid: boolean;
   let selected_i1: number | undefined = undefined;
   let selected_j1: number | undefined = undefined;
   let selected_i2: number | undefined = undefined;
@@ -34,7 +35,7 @@
       }
       matrix1.push(row);
     }
-    for (let i = 0; i < cols1; i++) {
+    for (let i = 0; i < rows2; i++) {
       let row = [];
       for (let j = 0; j < cols2; j++) {
         row.push(getRandom());
@@ -47,24 +48,28 @@
     max_val;
     rows1;
     cols1;
+    rows2;
     cols2;
     createMatrices();
   }
 
   // Update matrix3
   $: {
-    matrix3 = [];
+    is_valid = cols1 === rows2;
+    if (is_valid) {
+      matrix3 = [];
 
-    for (let i = 0; i < rows1; i++) {
-      let row = [];
-      for (let j = 0; j < cols2; j++) {
-        let sum = 0;
-        for (let k = 0; k < cols1; k++) {
-          sum += matrix1[i][k] * matrix2[k][j];
+      for (let i = 0; i < rows1; i++) {
+        let row = [];
+        for (let j = 0; j < cols2; j++) {
+          let sum = 0;
+          for (let k = 0; k < cols1; k++) {
+            sum += matrix1[i][k] * matrix2[k][j];
+          }
+          row.push(sum);
         }
-        row.push(sum);
+        matrix3.push(row);
       }
-      matrix3.push(row);
     }
   }
 
@@ -104,19 +109,16 @@
   <Radio options={modes} bind:selected={mode}></Radio>
 </div>
 <p>
-  Matrix 1 rows <input type="number" bind:value={rows1}>
+  Matrix 1 size: <input type="number" bind:value={rows1}> x <input type="number" bind:value={cols1}>
 </p>
 <p>
-  Matrix 1 cols / Matrix 2 rows <input type="number" bind:value={cols1}>
-</p>
-<p>
-  Matrix 2 cols <input type="number" bind:value={cols2}>
+  Matrix 2 size: <input type="number" bind:value={rows2}> x <input type="number" bind:value={cols2}>
 </p>
 <p>
   Max value <input type="number" bind:value={max_val}>
 </p>
 
-<matrices class:matrix-grid={mode === 'Multiply (grid)'}>
+<matrices class:matrix-grid={mode === 'Multiply (grid)'} class:is_valid>
   <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
     highlight_i={selected_i1} highlight_j={selected_j1}
     highlight_row={selected_i1} highlight_col = {undefined}
@@ -127,11 +129,15 @@
     highlight_row={undefined} highlight_col = {selected_j2}
   /></div>
   <equals>=</equals>
-  <div class="matrix3"><Matrix matrix={matrix3} on:change={handle_change3}
-    highlight_i={selected_i1} highlight_j={selected_j2}
-    highlight_row={undefined}
-    highlight_col={undefined}
-  /></div>
+  {#if is_valid}
+    <div class="matrix3"><Matrix matrix={matrix3} on:change={handle_change3}
+      highlight_i={selected_i1} highlight_j={selected_j2}
+      highlight_row={undefined}
+      highlight_col={undefined}
+    /></div>
+  {:else}
+    <div class="matrix3">invalid</div>
+  {/if}
 </matrices>
 <equation>
   {equation}
@@ -153,7 +159,7 @@
     color: inherit;
     border-color: #202020;
     font-size: 30px;
-    margin-left: 20px;
+    margin: 0 10px;
   }
   input:focus {
     outline-color: #a0a0a0;
@@ -184,6 +190,10 @@
   }
   .matrix-grid > equals {
     display: none;
+  }
+  :not(.is_valid) > .matrix3 {
+    background-color: #402020;
+    text-align: center;
   }
   dot {
     text-align: center;
