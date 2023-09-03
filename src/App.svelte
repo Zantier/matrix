@@ -1,5 +1,6 @@
 <script lang="ts">
   import Matrix from "./matrix.svelte";
+  import Radio from "./Radio.svelte";
 
   let rows1: number = 1 + Math.floor(3*Math.random());
 
@@ -15,6 +16,8 @@
   let selected_j1: number | undefined = undefined;
   let selected_i2: number | undefined = undefined;
   let selected_j2: number | undefined = undefined;
+  let modes = ['Multiply 1', 'Multiply 2', 'Convolution']
+  let mode;
 
 
   function getRandom() {
@@ -99,6 +102,10 @@
 <p>
   [Hover over] / [tap] values to see highlighting
 </p>
+<div>
+  Mode:
+  <Radio options={modes} bind:selected={mode}></Radio>
+</div>
 <p>
   Matrix 1 rows <input type="number" bind:value={rows1}>
 </p>
