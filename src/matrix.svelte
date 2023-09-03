@@ -91,9 +91,9 @@
     text-align: center;
   }
   .highlight_row {
-    background-color: #206020;
+    background-color: #204020;
   }
   .highlight {
-    background-color: #606020;
+    background-color: #404020;
   }
 </style>
