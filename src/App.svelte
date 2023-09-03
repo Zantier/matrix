@@ -99,9 +99,6 @@
 <h1>
   Matrix multiplication
 </h1>
-<p>
-  [Hover over] / [tap] values to see highlighting
-</p>
 <div>
   Mode:
   <Radio options={modes} bind:selected={mode}></Radio>
@@ -139,6 +136,9 @@
 <equation>
   {equation}
 </equation>
+<p>
+  [Hover over] / [tap] values to see highlighting
+</p>
 
 <style>
   :root {
