@@ -188,12 +188,12 @@
 
 <matrices class:matrix-grid={mode === 'Multiply (grid)'} class:is_valid>
   <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
-    highlight_i={is_convolution ? undefined : selected_i1} highlight_j={is_convolution ? undefined : selected_j1}
+    highlight_i={undefined} highlight_j={undefined}
     highlight_row={is_convolution ? undefined : selected_i1} highlight_col = {undefined}
   /></div>
   <dot>·</dot>
   <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
-    highlight_i={is_convolution ? undefined : selected_i2} highlight_j={is_convolution ? undefined : selected_j2}
+    highlight_i={undefined} highlight_j={undefined}
     highlight_row={undefined} highlight_col = {is_convolution ? undefined : selected_j2}
   /></div>
   <equals>=</equals>
