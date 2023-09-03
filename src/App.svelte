@@ -16,7 +16,7 @@
   let selected_j1: number | undefined = undefined;
   let selected_i2: number | undefined = undefined;
   let selected_j2: number | undefined = undefined;
-  let modes = ['Multiply 1', 'Multiply 2', 'Convolution']
+  let modes = ['Multiply', 'Multiply (grid)', 'Convolution']
   let mode;
 
 
@@ -116,22 +116,22 @@
   Max value <input type="number" bind:value={max_val}>
 </p>
 
-<matrices>
-  <Matrix bind:matrix={matrix1} on:change={handle_change1}
+<matrices class:matrix-grid={mode === 'Multiply (grid)'}>
+  <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
     highlight_i={selected_i1} highlight_j={selected_j1}
     highlight_row={selected_i1} highlight_col = {undefined}
-  />
+  /></div>
   <dot>·</dot>
-  <Matrix bind:matrix={matrix2} on:change={handle_change2}
+  <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
     highlight_i={selected_i2} highlight_j={selected_j2}
     highlight_row={undefined} highlight_col = {selected_j2}
-  />
-  =
-  <Matrix matrix={matrix3} on:change={handle_change3}
+  /></div>
+  <equals>=</equals>
+  <div class="matrix3"><Matrix matrix={matrix3} on:change={handle_change3}
     highlight_i={selected_i1} highlight_j={selected_j2}
     highlight_row={undefined}
     highlight_col={undefined}
-  />
+  /></div>
 </matrices>
 <equation>
   {equation}
@@ -166,7 +166,27 @@
     gap: 10px;
     font-size: 20px;
   }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+  }
+  .matrix-grid > .matrix1 {
+    grid-row-start: 2;
+    grid-column-start: 1;
+  }
+  .matrix-grid > .matrix2 {
+    grid-row-start: 1;
+    grid-column-start: 2;
+  }
+  .matrix-grid > .matrix3 {
+    grid-row-start: 2;
+    grid-column-start: 2;
+  }
+  .matrix-grid > equals {
+    display: none;
+  }
   dot {
+    text-align: center;
     font-size: 2em;
     font-family: initial;
   }
