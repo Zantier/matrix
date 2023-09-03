@@ -190,11 +190,13 @@
   <div class="matrix1"><Matrix bind:matrix={matrix1} on:change={handle_change1}
     highlight_i={undefined} highlight_j={undefined}
     highlight_row={is_convolution ? undefined : selected_i1} highlight_col = {undefined}
+    --highlight="#204020"
   /></div>
   <dot>·</dot>
   <div class="matrix2"><Matrix bind:matrix={matrix2} on:change={handle_change2}
     highlight_i={undefined} highlight_j={undefined}
     highlight_row={undefined} highlight_col = {is_convolution ? undefined : selected_j2}
+    --highlight="#204020"
   /></div>
   <equals>=</equals>
   {#if is_valid}
@@ -202,6 +204,7 @@
       highlight_i={selected_i1} highlight_j={selected_j2}
       highlight_row={undefined}
       highlight_col={undefined}
+      --highlight="#404020"
     /></div>
   {:else}
     <div class="matrix3">invalid</div>

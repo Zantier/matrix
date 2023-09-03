@@ -90,10 +90,7 @@
     padding: var(--padding) 0;
     text-align: center;
   }
-  .highlight_row {
-    background-color: #204020;
-  }
-  .highlight {
-    background-color: #404020;
+  .highlight, .highlight_row {
+    background-color: var(--highlight);
   }
 </style>
