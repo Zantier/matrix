@@ -6,7 +6,8 @@
   let rows2: number = 1 + Math.floor(3*Math.random());
   let cols1: number = 1 + Math.floor(3*Math.random());
   let cols2: number = 1 + Math.floor(3*Math.random());
-  let max_val: number = 3;
+  let min_val: number = -1;
+  let max_val: number = 2;
   let equation = '';
 
   let matrix1: number[][] = []
@@ -22,7 +23,7 @@
 
 
   function getRandom() {
-    return Math.floor((max_val + 1)*Math.random());
+    return min_val + Math.floor((max_val - min_val + 1)*Math.random());
   }
 
   function createMatrices() {
@@ -45,6 +46,7 @@
   }
 
   $: {
+    min_val;
     max_val;
     rows1;
     cols1;
@@ -79,7 +81,21 @@
       equation = '';
       let delim = '';
       for (let i = 0; i < cols1; i++) {
-        equation += `${delim}${matrix1[selected_i1][i]}·${matrix2[i][selected_j2]}`;
+        let value1 = matrix1[selected_i1][i];
+        let value2 = matrix2[i][selected_j2];
+        let value1_str = value1.toString();
+        let value2_str = value2.toString();
+        if (value1 < 0) {
+          value1_str = `(${value1})`;
+        }
+        if (value2 < 0) {
+          value2_str = `(${value2})`;
+        }
+        let dot = '·';
+        if (value1 < 0 || value2 < 0) {
+          dot = '';
+        }
+        equation += `${delim}${value1_str}${dot}${value2_str}`;
         delim = ' + ';
       }
       equation += ` = ${matrix3[selected_i1][selected_j2]}`;
@@ -115,7 +131,7 @@
   Matrix 2 size: <input type="number" bind:value={rows2}> x <input type="number" bind:value={cols2}>
 </p>
 <p>
-  Max value <input type="number" bind:value={max_val}>
+  Values between <input type="number" bind:value={min_val}> and <input type="number" bind:value={max_val}>
 </p>
 
 <matrices class:matrix-grid={mode === 'Multiply (grid)'} class:is_valid>
