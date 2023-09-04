@@ -211,6 +211,7 @@
   <equals>=</equals>
   {#if is_valid}
     <div class="matrix3"><Matrix matrix={matrix3} on:change={handle_change3}
+      editable={false}
       highlight_i={selected_i1} highlight_j={selected_j2}
       highlight_height={1} highlight_width={1}
       highlight_row={undefined}

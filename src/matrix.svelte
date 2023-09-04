@@ -3,6 +3,7 @@
 
 	const dispatch = createEventDispatcher();
 
+  export let editable: boolean = true;
   export let matrix: number[][] = [];
   let selected_i: number | undefined = undefined;
   let selected_j: number | undefined = undefined;
@@ -43,12 +44,22 @@
     {#each matrix as row, i}
       <row>
         {#each row as num, j}
-          <input class="val"
-            bind:value={matrix[i][j]}
-            class:highlight_row={i === highlight_row || j === highlight_col}
-            class:highlight={i >= highlight_i && i < highlight_i + highlight_height &&
-              j >= highlight_j && j < highlight_j + highlight_width}
-            on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="textbox" />
+          {#if editable}
+            <input class="val"
+              bind:value={matrix[i][j]}
+              class:highlight_row={i === highlight_row || j === highlight_col}
+              class:highlight={i >= highlight_i && i < highlight_i + highlight_height &&
+                j >= highlight_j && j < highlight_j + highlight_width}
+              on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="textbox" />
+          {:else}
+            <div class="val"
+              class:highlight_row={i === highlight_row || j === highlight_col}
+              class:highlight={i >= highlight_i && i < highlight_i + highlight_height &&
+                j >= highlight_j && j < highlight_j + highlight_width}
+              on:mouseenter={() => enter(i, j)} on:mouseleave={() => leave(i, j)} role="none">
+              {matrix[i][j]}
+            </div>
+          {/if}
         {/each}
       </row>
     {/each}
@@ -81,6 +92,9 @@
   }
   row {
     display: block;
+  }
+  input {
+    font: inherit;
   }
   .val {
     background-color: inherit;
