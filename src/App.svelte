@@ -233,7 +233,8 @@
   :root {
     background-color: #202020;
     color: #a0a0a0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 20px;
   }
   input {
