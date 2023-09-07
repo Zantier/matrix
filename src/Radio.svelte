@@ -12,7 +12,7 @@
 </div>
 
 <style>
-  :root {
+  * {
     --color: #101040;
   }
   .outer {

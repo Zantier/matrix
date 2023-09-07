@@ -68,7 +68,7 @@
 </outer>
 
 <style>
-  :root {
+  * {
     --padding: 20px;
   }
   outer {
