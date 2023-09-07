@@ -231,8 +231,9 @@
 
 <style>
   :root {
+    --color: #a0a0a0;
     background-color: #202020;
-    color: #a0a0a0;
+    color: var(--color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
       Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 20px;
@@ -241,13 +242,9 @@
     width: 50px;
     background-color: inherit;
     color: inherit;
-    border-color: #202020;
+    border: inset var(--color);
     font-size: 30px;
     margin: 0 10px;
-  }
-  input:focus {
-    outline-color: #a0a0a0;
-    outline-style: solid;
   }
   matrices {
     display: flex;
